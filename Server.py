@@ -1,0 +1,1 @@
+#azioni server specificate nel documento guida

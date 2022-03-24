@@ -1,0 +1,1 @@
+#azioni peer specificate nel documento guido

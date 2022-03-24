@@ -1,0 +1,1 @@
+#interfaccia principale che permette di lanciare l'interfaccia dedicata a seconda l'utilizzatore sia un server o un peer
