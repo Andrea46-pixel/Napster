@@ -7,3 +7,5 @@
 #RICERCA(session id, testo)
 #LOGOUT(session id)
 #REGISTRADOWN(md5, session id)
+
+#porta del server 15000
