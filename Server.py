@@ -9,3 +9,5 @@
 #REGISTRADOWN(md5, session id)
 
 #porta del server 15000
+
+print("Prova")
