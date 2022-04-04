@@ -8,6 +8,23 @@
 #LOGOUT(session id)
 #REGISTRADOWN(md5, session id)
 
-#porta del server 15000
+#porta del server 80
 
-print("Prova")
+import sqlite3
+from sqlite3 import Error
+
+def create_connection(path):
+    connection = None
+    try:
+        connection = sqlite3.connect(path)
+        print("Connection to SQLite DB successful")
+    except Error as e:
+        print(f"The error '{e}' occurred")
+
+    return connection
+  
+  
+connection = create_connection("E:\\sm_app.sqlite")
+
+#da installare
+$ pip install mysql-connector-python
