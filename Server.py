@@ -30,3 +30,4 @@ connection = create_connection("E:\\sm_app.sqlite")
 $ pip install mysql-connector-python
 
 print("stampato da ubuntu")
+print("stampato da windows")
