@@ -1,8 +1,7 @@
-
 import socket
 import os
 import sys
-import Peer
+#import Peer
 
 class CServer:
 
@@ -10,15 +9,11 @@ class CServer:
 
         self.ip=""
         self.s=socket.socket()
-       
         self.stato=True
         f=open("porta.txt", "r").read()
         self.porta=f
-        #f.close()
         print(self.porta)
-
         self.s.bind(("", int(self.porta)))
-        
         self.Ascolto()
 
 
