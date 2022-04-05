@@ -17,19 +17,28 @@ import pandas as pd
 
 
 #connecting to the server
-def create_server_connection(host_name, user_name, user_password):
+def create_server_connection(host_name, user_name, user_password, auth_plug):
     connection = None
     try:
         connection = mysql.connector.connect(
             host=host_name,
             user=user_name,
-            passwd=user_password
+            passwd=user_password,
+            auth_plugin = auth_plug
         )
         print("MySQL Database connection successful")
     except Error as err:
         print(f"Error: '{err}'")
 
     return connection
+
+auth_plugin = "mysql_native_password"
+hostname ="localhost"
+user_name = "**********"
+user_password = "************"
+
+create_server_connection(hostname, user_name, user_password,auth_plugin)
+
 
 
 #creating database
