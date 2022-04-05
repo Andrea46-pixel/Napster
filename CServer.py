@@ -1,26 +1,46 @@
+
 import socket
 import os
 import sys
 import Peer
 
-class Server:
+class CServer:
 
-    def __init__(self, porta):
+    def __init__(self):
+
         self.ip=""
-        self.porta=porta
         self.s=socket.socket()
-        self.s.bind((self.ip, self.porta))
+       
         self.stato=True
+        f=open("porta.txt", "r").read()
+        self.porta=f
+        #f.close()
+        print(self.porta)
+
+        self.s.bind(("", int(self.porta)))
+        
+        self.Ascolto()
 
 
 
-    def __Ascolto__(self):
+    def Ascolto(self):
 
         self.s.listen(10)
         print("Server in ascolto...")
         while self.stato==True:
-            print("")
+            self.conn, self.arr=self.s.accept()
+            totstringa=self.conn.recv(4096).decode()
+            stringa=totstringa[0:4]
+            if stringa=="RETR":
+                print("")
+            if stringa=="ARET":
+                print("")
+            if stringa=="RREG":
+                print("")
 
+
+
+x=CServer()
 
 
 
