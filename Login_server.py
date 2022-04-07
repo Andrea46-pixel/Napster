@@ -1,3 +1,8 @@
+from socket import gethostbyname
+import mysql.connector
+from mysql.connector import Error
+import socket
+
 #Connecting to the Database
 def create_db_connection(host_name, user_name, user_password, db_name, auth_plug):
     connection = None
