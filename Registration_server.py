@@ -1,3 +1,8 @@
+from socket import gethostbyname
+import mysql.connector
+from mysql.connector import Error
+import socket
+
 def registration():
     us = input("Username: ")
     pw = input("Password: ")
