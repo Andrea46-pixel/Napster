@@ -1,9 +1,11 @@
+#from importlib.util import set_loader
 import socket
 import os
 import hashlib
 import sys
-import CServer
-import Main
+#import CServer
+#import Main
+import time
 
 #azioni peer specificate nel documento guido
 
@@ -26,24 +28,34 @@ class Peer:
 
     
 
-    def __init__(self, porta, ip):
-        self.porta=porta
-        self.ip=ip
+    def __init__(self):
+        self.porta=0
+        self.ip=""
         self.nome_utente=""
         self.mail=""
         self.password=""
         self.server=socket.socket()
-        self.client=socket.socket()
+        #self.client=socket.socket()
+        #self.__Connessione__()
         
     #passare mail e password
-    def __Login__(self):
-        print("")
+    def __Login__(self, mail, user, passw):
+        f=open("porta.txt", "r").read()
+        self.porta=int(f)
+        #self.server.connect(("25.14.181.181",5000))
+        self.server.send((f"{mail}.{user}.{passw}").encode())
+        x=self.server.recv(4096)
+        print(x)
+        time.sleep(2)
+        self.server.close()
+
 
 
 
 
     def __Registrazione__(self, nome_utente, mail, password):
-        print("")
+        self.server.connect((self.ip,80))
+        
 
 
     #passare il nome del file
@@ -67,9 +79,9 @@ class Peer:
 
     def __Connessione__(self):
 
-        self.ip=socket.gethostbyname(socket.gethostname())
+        #self.ip=socket.gethostbyname(socket.gethostname())
 
         #connessione con il server centrale
-        self.server.connect(("25.14.181.181",80))
+        self.server.connect(("25.14.181.181",5000))
         #invio messaggio di aggiornamento stato server
-        self.server.send(f"LOGI".encode)
+        #self.server.send(f"LOGI".encode)
