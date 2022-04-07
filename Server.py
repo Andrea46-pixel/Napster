@@ -98,61 +98,8 @@ def execute_query(connection, query):
 #execute_query(connection, delete_user)
 
 
-#creating a query execution function for login
-def execute__login_query(connection, query, par1, par2):
-    cursor = connection.cursor(buffered = True)
-    changed = 0
-    try:
-        cursor.execute(query, (par1,par2,))
-        connection.commit()
-        print("Query successful")
-        changed = cursor.rowcount
-    except Error as err:
-        print(f"Error: '{err}'")
-    return changed
 
 
-#function for the login
-def login():
-    us = input("Username: ")
-    pw = input("Password: ")
-    ip = socket.gethostbyname(socket.gethostname())
-    print(f"Questo è l'ip: {ip}")
-    porta = input("Porta: ")
-
-    login_query = "SELECT NOME_UTENTE FROM UTENTE WHERE NOME_UTENTE = %s AND PWD = %s"
-
-    changed = execute__login_query(connection, login_query, us, pw)
-
-    print(f"Questo è il numero di righe modificate: {changed}")
-    if changed==1:
-        print("Accesso effettuato con sucecsso!\n")
-        update_ip = "UPDATE UTENTE SET IP=%s WHERE NOME_UTENTE=%s"
-        
-        execute__login_query(connection, update_ip, ip, us)
-
-        update_porta = "UPDATE UTENTE SET PORTA=%s WHERE NOME_UTENTE=%s"
-        
-        execute__login_query(connection, update_porta, porta, us)
-        
-    else: 
-        print("Accesso negato\n")
-
-
-login()
-
-
-def registration():
-    us = input("Username: ")
-    pw = input("Password: ")
-    ip = socket.gethostbyname(socket.gethostname())
-    porta = "5001"
-    email = input("Email: ")
-
-
-    ch_us_query = "SELECT NOME_UTENTE, PWD FROM UTENTE WHERE NOME_UTENTE = {us}"
-    check = execute_query(connection, ch_us_query)
-    if check>0: print("Il nome utente inserito è già stato utilizzato")
     
 
 
