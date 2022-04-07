@@ -1,10 +1,11 @@
-#import Peer
+import Peer
 #import CServer
-from pickle import TRUE
 import random
 import os
 import os.path
 import time
+
+
 
 
 
@@ -44,14 +45,23 @@ def Apertura():
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #metodo per entrare nel programma
 def Login():
-    cls()
-    print("Inserisci la tua mail")
-    mail=input()
-    print("Inserisci il tuo username")
-    username=input()
-    print("Inserisci la tua password")
-    password=input()
-    CalcoloPorta()
+    exi=False
+    while exi==False:
+        cls()
+        print("Inserisci la tua mail")
+        mail=input()
+        print("Inserisci il tuo username")
+        username=input()
+        print("Inserisci la tua password")
+        password=input()
+        CalcoloPorta()
+        peer.__Login__(mail, username, password)
+        if exi ==False:
+            print("Utente non trovato")
+            time.sleep(1)
+        else:
+            print("Utente trovato\nAccesso in corso...")
+            time.sleep(1)
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -71,6 +81,8 @@ def Registrazione():
     if username and mail and password!="":
         #viene controllato che sia possibile registrarsi con i dati inseriti
         accetazione=False
+
+        accetazione=peer.__Registrazione__(username, mail, password)
 
         if accetazione==True:
             #collegarsi alla classe peer per fare la registrazione con l'invio dei dati al server
@@ -129,7 +141,7 @@ def Menu(nome, mail):
             Delete()
         
         if scelta=="x":
-            exi=TRUE
+            exi=True
             print("Disconnessione da NapsterxSupreme...")
             time.sleep(1)
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -151,14 +163,14 @@ def Aggiunta():
     while exi==False:
         print("Inserisci il nome del file che vuoi inserire\nCortesemente anche l'estensione")
         nomefile=input()
-        if os.path.isfile(nomefile)==TRUE:
+        if os.path.isfile(nomefile)==True:
             print("File aggiunto")
         else:
             print("File non aggiunto\nRiprovare")
         print("Se vuoi tornare indietro premi x\nSe vuoi inserire altri file premi un qualsiasi tasto")
         scelta=input().lower()
         if scelta=="x":
-            exi=TRUE
+            exi=True
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -170,7 +182,7 @@ def Delete():
     while exit==False:
         print("Quale file vuoi togliere tra quelli che condividi??")
         nomefile=input()
-        if os.path.isfile(nomefile)==TRUE:
+        if os.path.isfile(nomefile)==True:
             #richiamare peer per togliere il file
             print("")
         else:
@@ -178,7 +190,7 @@ def Delete():
             print("Premere x per tornare indietro\nPer eseguire un'altra ricerca premi un tasto qualsiasi")
             scelta=input().lower()
             if scelta=="x":
-                exit=TRUE
+                exit=True
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -193,6 +205,7 @@ def Download():
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 uscita = False
+peer=Peer.Peer()
 while uscita == False:
     cls()
     uscita=Apertura()
