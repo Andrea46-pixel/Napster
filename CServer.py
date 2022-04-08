@@ -1,7 +1,6 @@
 import socket
 import os
 import sys
-#import Peer
 
 class CServer:
 
@@ -14,7 +13,6 @@ class CServer:
         self.porta=f
         print(self.porta)
         self.s.bind(("", int(self.porta)))
-        self.Ascolto()
 
 
 
@@ -22,20 +20,21 @@ class CServer:
 
         self.s.listen(10)
         print("Server in ascolto...")
+        print(self.porta)
         while self.stato==True:
             self.conn, self.arr=self.s.accept()
             totstringa=self.conn.recv(4096).decode()
             stringa=totstringa[0:4]
+
             if stringa=="RETR":
                 print("")
-            if stringa=="ARET":
+            elif stringa=="ARET":
                 print("")
-            if stringa=="RREG":
+            elif stringa=="RREG":
                 print("")
 
 
 
 x=CServer()
-
-
-
+print("e")
+x.Ascolto()
