@@ -1,4 +1,3 @@
-import cmd
 import random
 import os
 import socket
@@ -8,6 +7,7 @@ import hashlib
 import sys
 #import CServer
 import subprocess
+from threading import Thread
 
 
 def cls():
@@ -30,6 +30,7 @@ class Peer:
         self.id=""
         self.md5=""
         self.nomefile=""
+        self.ipserver=""
         self.s=socket.socket()
 
 
@@ -37,9 +38,26 @@ class Peer:
         porta=80
         self.Calcoloporta()
         #hostname = socket.gethostname()
-        self.ip = socket.gethostbyname(socket.gethostname()) 
-
-        self.s.connect(("25.14.181.181",porta))
+        #self.ip = socket.gethostbyname(socket.gethostname()) 
+        ok=False
+        while ok==False:
+            print("Inserisci il tuo indirizzo ip\nMetti gli zeri se il numero non composto da 3 cifre")
+            self.ip=input()
+            if self.ip.__len__()==15:
+                ok=True
+            else:
+                print("Hai inseriti male il tuo ip")
+                
+        ok=False
+        while ok==False:
+            print("Inserisci l'indirizzo ip del server\nMetti gli zeri se il numero non composto da 3 cifre")
+            self.ipserver=input()
+            if self.ipserver.__len__()==15:
+                ok=True
+            else:
+                print("Hai inseriti male il l'indirizzo del server")
+        
+        self.s.connect((self.ipserver,porta))
 
         self.s.send(("LOGI"+self.ip+self.porta).encode())
         st=self.s.recv(4096).decode()
@@ -124,7 +142,9 @@ peer.Calcoloporta()
 #peer.Login()
 #va chiamato con un tread 
 #se eseguito così si sovrappone a questo
-subprocess.run(["python3","CServer.py"])
+#subprocess.run(["python3","CServer.py"])
+servert=Thread(subprocess.run(["python3","CServer.py"]))
+servert.start()
 uscita=False
 while uscita==False:
     #cls()
@@ -139,4 +159,5 @@ while uscita==False:
         peer.Delete()
     elif scelta=="X":
         peer.Logout()
+        os.close(servert)
         uscita=True
