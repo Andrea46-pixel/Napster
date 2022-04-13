@@ -36,6 +36,7 @@ class CServer:
                 if stringa=="RETR":
                     
                     #controllare
+                    #i cunk vanno calcolati, non si invia 
                     st=totstringa[5:36]
                     f=open(self.percorso+st, os.O_RDONLY)
                     while True:
