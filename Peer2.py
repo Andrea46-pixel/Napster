@@ -77,7 +77,12 @@ class Peer:
         #sistemare
         print("Inserisci il nome del file da cercare\nCon estensione se possibile")
         self.nomefile=input()
-        self.s.send(("FIND"+str(self.id)+str(self.nomefile)).encode())
+        
+        vuoto=""
+        for i in range(len(self.nomefile),100):
+            vuoto+=" "
+        
+        self.s.send(("FIND"+str(self.id)+str(self.nomefile)+vuoto).encode())
         #fare in modo di vedere le iterazioni
         st=self.s.recv(4096).decode()
 
@@ -177,9 +182,9 @@ if os.path.exists('filemd5')==False:
 
 peer.Calcoloporta()
 
-peer.Login()
+#peer.Login()
 
-servert=0
+
 
 peer.Cartella()
 
@@ -199,10 +204,12 @@ if p==0:
         elif scelta=="T":
             peer.Delete()
         elif scelta=="X":
-            peer.Logout()
+            #peer.Logout()
             #os.close(servert)
             uscita=True
             #os.killpg(os.getpid(pro.pid), signal.SIGTERM)
+            
+            print("Premere Ctrl + C cortesemente")
             sys.exit()
             #os._exit(os.EX_OK)
 else:
