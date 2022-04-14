@@ -90,7 +90,7 @@ def upload(sid, md5, name):
     
 
 
-pacchetto = "ADDF"+"X1ZABL3QVKNJX3Q0"+"4353e755883be5d0058e13e272335414"+"piratideicaraibivolumeTERZO"
+pacchetto = "ADDF"+"X1ZABL3QVKNJX3QA"+"4353e755883be5d0058e13e272335415"+"piratideicaraibivolumeTERZO"
 pacchetto = pacchetto.ljust(152)
 print(pacchetto)
 
