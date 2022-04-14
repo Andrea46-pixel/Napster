@@ -27,7 +27,7 @@ db_name = "Napster"
 connection = create_db_connection(hostname, user_name, user_password, db_name, auth_plugin)
 
 #creating a query execution function to add files
-def execute_upload_query(connection, query, par1, par2, par3):
+def execute_query_3par(connection, query, par1, par2, par3):
     cursor = connection.cursor(buffered = True)
     output_string =par3
     try:
@@ -39,7 +39,7 @@ def execute_upload_query(connection, query, par1, par2, par3):
     return output_string
 
 
-def execute_check_query(connection, query, par1):
+def execute_query_1par(connection, query, par1):
     cursor = connection.cursor(buffered = True)
     try:
         cursor.execute(query, (par1,))
@@ -65,7 +65,7 @@ def execute_query_2par(connection, query, par1,par2):
 
 def upload(sid, md5, name):
     check_query1 = "SELECT MD5 FROM FILE WHERE MD5 = %s"
-    changed1 = execute_check_query(connection, check_query1, md5)
+    changed1 = execute_query_1par(connection, check_query1, md5)
     if changed1 ==1:
         update_query_FILE = "UPDATE FILE SET NOME = %s WHERE MD5 = %s"
         execute_query_2par(connection, update_query_FILE, name, md5)
@@ -80,6 +80,12 @@ def upload(sid, md5, name):
         upload_query_DIRECTORY = "INSERT INTO DIRECTORY VALUES (%s, %s)"
         execute_query_2par(connection, upload_query_DIRECTORY, sid, md5)
     
+    copy_query = "SELECT MD5 FROM DIRECTORY WHERE MD5 = %s"
+    copy = str(execute_query_1par(connection, copy_query, md5))
+    copy = copy.zfill(3)
+    answer = "AADD"+copy
+    return answer
+    
 
     
 
@@ -90,7 +96,5 @@ print(pacchetto)
 
 if pacchetto[0:4] == "ADDF": 
     output = upload(pacchetto[4:20], pacchetto[20:52], pacchetto[52:153])
-    #print(pacchetto[4:20])
-    #print(pacchetto[20:52])
-    #print(pacchetto[52:153])
+    print(output)
 else: print("Non ha richiesto l'upload")
