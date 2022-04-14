@@ -75,6 +75,7 @@ def upload(sid, md5, name):
 
     check_query2 = "SELECT MD5 FROM DIRECTORY WHERE MD5 = %s AND sid=%s"
     changed2 = execute_query_2par(connection, check_query2, md5, sid)
+    print(changed2)
     if changed2 ==0:
         upload_query_DIRECTORY = "INSERT INTO DIRECTORY VALUES (%s, %s)"
         execute_query_2par(connection, upload_query_DIRECTORY, sid, md5)
@@ -83,7 +84,7 @@ def upload(sid, md5, name):
     
 
 
-pacchetto = "ADDF"+"X1ZABL3QVKNJX3QL"+"4353e755883be5d0058e13e272335414"+"piratideicaraibivolumesecondoopiratideicaraibivolumesecondoopiratideicaraibivolumesecondoo12345678910"
+pacchetto = "ADDF"+"X1ZABL3QVKNJX3Q0"+"4353e755883be5d0058e13e272335414"+"piratideicaraibivolumeTERZO"
 pacchetto = pacchetto.ljust(152)
 print(pacchetto)
 
