@@ -88,7 +88,7 @@ def remove(sid, md5):
     return answer
 
 
-pacchetto = "DELF"+"X1ZABL3QVKNJX3QL"+"4353e755883be5d0058e13e272335414"
+pacchetto = "DELF"+"7QSFFO3YOWPI2DZF"+"4353e755883be5d0058e13e272335417"
 print(pacchetto)
 
 if pacchetto[0:4] == "DELF": 
