@@ -73,6 +73,7 @@ def download(sid, md5, ip, porta):
     n_downloads = str(n_downloads).zfill(5)
     answer = "ARRE"+n_downloads
     print(answer)
+    return answer
 
 
 pacchetto = "RREG"+"0ZQ8974GUTOH8TMC"+"4353e755883be5d0058e13e272335117"+"192.168.001.001"+"50000"
