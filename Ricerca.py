@@ -114,6 +114,8 @@ def ricerca(sid, ricerca):
             list.append(answer)
             print(answer)
             
+    return list
+            
 
 stringa = "Film"
 stringa = stringa.ljust(100)
