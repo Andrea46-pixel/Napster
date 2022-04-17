@@ -58,7 +58,7 @@ def login(ip, porta):
 
 
 
-pacchetto = "LOGI"+"192.168.001.005"+"50000"
+pacchetto = "LOGI"+"192.168.001.004"+"50000"
 
 #ip = socket.gethostbyname(socket.gethostname())
 if pacchetto[0:4] == "LOGI": 
