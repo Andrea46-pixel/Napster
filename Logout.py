@@ -107,7 +107,7 @@ def logout(sid):
     return answer
         
 
-pacchetto = "LOGO"+"7QSFFO3YOWPI2DZF"
+pacchetto = "LOGO"+"XXRQZTN7AFZPPWPB"
 if pacchetto[0:4] == "LOGO": 
     output = logout(pacchetto[4:20])
     print(output)
