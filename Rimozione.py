@@ -26,7 +26,7 @@ db_name = "Napster"
 
 connection = create_db_connection(hostname, user_name, user_password, db_name, auth_plugin)
 
-#creating a query execution function to add files
+#creating a query execution function
 def execute_query_3par(connection, query, par1, par2, par3):
     cursor = connection.cursor(buffered = True)
     output_string =par3
