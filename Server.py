@@ -226,7 +226,6 @@ def ricerca(sid, ricerca):
             ip_port = read_query(connection, ip_porta_q, i[1])
             answer = answer+str(ip_port[0][0])+str(ip_port[0][1])
             list.append(answer)
-            print(answer)
     return list
 
 
@@ -307,7 +306,10 @@ def azione(intestazione):
     elif intestazione == "FIND":
         sid = conn.recv(16).decode()
         research = conn.recv(20).decode()
-        answer = pickle.dumps(ricerca(sid, research)) 
+        res = research.ljust(100)
+        ris = ricerca(sid, res)
+        print(f"Risposta: {ris}")
+        answer = pickle.dumps(ris)
         conn.send(answer)
         
     elif intestazione == "RREG":
@@ -330,7 +332,7 @@ def azione(intestazione):
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.bind(("", 80))
-s.listen(30)
+s.listen(40)
 
 while True:
     print("Server in ascolto...")
