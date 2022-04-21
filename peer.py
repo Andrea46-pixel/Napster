@@ -157,6 +157,7 @@ class Peer:
                 os.write(fd,buf)
 
             print(f"{self.nomefile} è stato scaricato correttamente")
+            time.sleep(1)
             self.ss.close()
 
             self.Socket()
@@ -168,6 +169,7 @@ class Peer:
         
         except:
             print(f"{self.nomefile} non è stato scaricato\nCi sono stati dei problemi")
+            time.sleep(1)
             try:
                 self.ss.close()
                 self.s.close()
@@ -215,15 +217,17 @@ class Peer:
         nome=input()
 
         if os.path.exists(f"filemd5/{nome}-md5.txt")==True:
-            f=open(f"filemd5/{nome}-md5.txt","r")
+            f=open(f"filemd5/{nome}-md5.txt","r").read()
             
             self.Socket()
             self.s.send((f"DELF{self.id}{str(f)}").encode())
             self.s.recv(4096).decode()
             print("file rimosso")
+            time.sleep(1)
             self.s.close()
         else:
             print("File non presente\nNon è stato possibile rimuovere alcun file")
+            time.sleep(1)
             try:
                 self.s.close()
             except:
@@ -297,6 +301,7 @@ peer.Login()
 
 if peer.id=="0000000000000000":
     print("Si è verificato un problema")
+    time.sleep(1)
     peer.Logout()
     sys.exit()
 
@@ -308,7 +313,8 @@ if p==0:
     while uscita==False:
         cls()
         print(f"Sessione {peer.id}")
-        print(f"Percorso cartella {peer.percorso}")
+        print(f"Percorso cartella file condivisi {peer.percorso}")
+        print(f"Percorso cartella file scaricati {peer.percorsodownload}")
         print("Digitare:\nR per cercare un file\nA per aggiungere un file\nT per togliere un file dalla condivisione\nX per disconettersi")
         scelta=input().upper()
         if scelta=="R":
