@@ -219,9 +219,9 @@ def ricerca(sid, ricerca):
         copy_query = "SELECT MD5, SID FROM DIRECTORY WHERE MD5 = %s"
         copy = str(execute_query_1par(connection, copy_query, file[0]))
         for_ip_port = read_query(connection, copy_query, file[0])
-        answer = "AFIN"+idmd5+file[0]+file[1]+copy
+        answer = "AFIN"+idmd5.zfill(3)+file[0]+file[1]+copy
         for i in for_ip_port:
-            answer = "AFIN"+idmd5+file[0]+file[1]+copy
+            answer = "AFIN"+idmd5.zfill(3)+file[0]+file[1]+copy
             ip_porta_q = "SELECT IP, PORTA FROM UTENTE WHERE SID = %s"
             ip_port = read_query(connection, ip_porta_q, i[1])
             answer = answer+str(ip_port[0][0])+str(ip_port[0][1])
