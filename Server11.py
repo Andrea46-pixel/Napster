@@ -9,22 +9,6 @@ import os
 import pickle
 
 
-#connecting to the server
-#def create_server_connection(host_name, user_name, user_password, auth_plug):
-#    connection = None
-#    try:
-#        connection = mysql.connector.connect(
-#            host=host_name,
-#            user=user_name,
-#            passwd=user_password,
-#            auth_plugin = auth_plug
-#        )
-#        print("MySQL Database connection successful")
-#    except Error as err:
-#        print(f"Error: '{err}'")
-
-#    return connection
-
 #Connecting to the Database
 def create_db_connection(host_name, user_name, user_password, db_name, auth_plug):
     connection = None
@@ -221,14 +205,14 @@ def ricerca(sid, ricerca):
         copy = str(execute_query_1par(connection, copy_query, file[0]))
         for_ip_port = read_query(connection, copy_query, file[0])
         risposta = "AFIN"+idmd5.zfill(3)+file[0]+file[1]+copy.zfill(3)
-        print(answer)
+        print(risposta)
         for i in for_ip_port:
             answer = "AFIN"+idmd5.zfill(3)+file[0]+file[1]+copy.zfill(3)
             ip_porta_q = "SELECT IP, PORTA FROM UTENTE WHERE SID = %s"
             ip_port = read_query(connection, ip_porta_q, i[1])
             answer = str(ip_port[0][0])+str(ip_port[0][1])
             risposta = risposta+answer
-            print(answer)
+            print(risposta)
             #list.append(answer)
     return risposta
 
