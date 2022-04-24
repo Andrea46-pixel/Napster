@@ -94,23 +94,34 @@ class Peer:
         st=[]
         self.s.send(("FIND"+str(self.id)+str(self.nomefile)+vuoto).encode())
         
-        risp=self.s.recv(1024)
-        st=pickle.loads(risp)
+        risp=self.s.recv(1024).decode()
+        #st=pickle.loads(risp)
 
         self.s.close()
 
-        x=8
-        '''y=int(st[5:7])
-        for ii in range(0,y,1):
-            print(f"md5 del file {st[x:x+32]} nome file {st[x+33:x+132]} copie presenti {st[x+133:x+135]} indirizzo ip {st[x+136:x+150]} porta {st[x+151:x+156]}") 
-            x+=157'''
+        #x=8
+        #y=int(st[5:7])
+        #for ii in range(0,y,1):
+        #    print(f"md5 del file {st[x:x+32]} nome file {st[x+33:x+132]} copie presenti {st[x+133:x+135]} indirizzo ip {st[x+136:x+150]} porta {st[x+151:x+156]}") 
+        #    x+=157'''
         
-        for i in st:
-            i=str(i)
-            nome_file = str(i[39:139]).strip()
-            #da sistemare nel caso i dati mostrati fossero incoretti per le posizioni sbagliate
-            print(f"idmd5: {i[4:7]}\nmd5 del file: {i[7:39]}\nnome file: {nome_file}\ncopie presenti: {i[139:142]}\nindirizzo ip: {i[142:157]}\nporta: {i[157:162]}")
-        
+        #for i in st:
+        #    i=str(i)
+        #    nome_file = str(i[39:139]).strip()
+        #    #da sistemare nel caso i dati mostrati fossero incoretti per le posizioni sbagliate
+        #    print(f"idmd5: {i[4:7]}\nmd5 del file: {i[7:39]}\nnome file: {nome_file}\ncopie presenti: {i[139:142]}\nindirizzo ip: {i[142:157]}\nporta: {i[157:162]}")
+        x = 7
+        idmd5  = int(risp[4:7].strip())
+        for i in range(0,idmd5):
+            md5 = risp[x:x+32]
+            name = risp[x+32:x+132]
+            copy = risp[x+132: x+135]
+            ip = risp[x+135: x+150]
+            port = risp[x+150: x+155]
+            print(f"\nMD5: {md5}\nNAME: {name.strip()}\nCOPY: {copy}\nIP: {ip}\nPORT: {port}\n")
+            
+
+
         qw=False
         while qw==False:
             print("Premere x se non si vuole scaricare un file")
