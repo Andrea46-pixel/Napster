@@ -52,13 +52,22 @@ class Peer:
 
         ok=False
         while ok==False:
-            print("Inserisci il tuo indirizzo ip\nMetti gli zeri se il numero non composto da 3 cifre")
-            self.ip=input()
+            inserted_ip = input("Inserisci il tuo indirizzo ip\n")
+            divided = inserted_ip.split(".")
+            if len(divided) == 4:
+                for i in range(0,3):
+                    segment = divided[i].zfill(3)
+                    self.ip = self.ip + segment+"."
+                self.ip = self.ip + divided[3].zfill(3)
+            
+               
             if self.ip.__len__()==15:
                 ok=True
+                print(f"Indirizzo IP: {self.ip}")
             else:
-                print("Hai inseriti male il tuo ip")
+                print("Hai inserito male il tuo ip")
          
+        
         ok=False
         while ok==False:
             print("Inserisci l'indirizzo ip del server")
@@ -66,7 +75,7 @@ class Peer:
             if self.ipserver.__len__()>=7 and len(self.ipserver)<=15:
                 ok=True
             else:
-                print("Hai inseriti male il l'indirizzo del server")
+                print("Hai inserito male l'indirizzo del server")
         
         self.Socket()
         
