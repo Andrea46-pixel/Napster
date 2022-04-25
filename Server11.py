@@ -197,24 +197,21 @@ def ricerca(sid, ricerca):
     query_idmd5 = "SELECT MD5,NOME FROM FILE WHERE NOME = %s"
     idmd5 = str(execute_query_1par(connection, query_idmd5, ricerca))
     
-    #list = []
     risposta = ""
     md5s = read_query(connection, query_idmd5, ricerca)
     for file in md5s:
         copy_query = "SELECT MD5, SID FROM DIRECTORY WHERE MD5 = %s"
         copy = str(execute_query_1par(connection, copy_query, file[0]))
         for_ip_port = read_query(connection, copy_query, file[0])
-        risposta = "AFIN"+idmd5.zfill(3)+file[0]+file[1]+copy.zfill(3)
-        print(risposta)
+        intestazione = "AFIN"+idmd5.zfill(3)
+        print(f"PRIMO CICLO - MD5S = {file[0]}")
         for i in for_ip_port:
-            answer = "AFIN"+idmd5.zfill(3)+file[0]+file[1]+copy.zfill(3)
             ip_porta_q = "SELECT IP, PORTA FROM UTENTE WHERE SID = %s"
             ip_port = read_query(connection, ip_porta_q, i[1])
-            answer = str(ip_port[0][0])+str(ip_port[0][1])
+            answer = file[0]+file[1]+copy.zfill(3)+str(ip_port[0][0])+str(ip_port[0][1])
             risposta = risposta+answer
-            print(risposta)
-            #list.append(answer)
-    return risposta
+            print(f"DENTRO FUNZIONE: {risposta}\n...................................\n")
+    return intestazione+risposta
 
 
 
