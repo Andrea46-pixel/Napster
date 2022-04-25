@@ -7,7 +7,7 @@ import hashlib
 import sys
 import subprocess
 from threading import Thread
-import pickle
+import signal
 
 
 
@@ -308,6 +308,12 @@ class Peer:
         print("Inserisci il percorso della cartella dove vuoi scaricare i file")
         self.percorsodownload=input()
 
+#==================================================================================================================#
+
+def Ctrl_c(signal,frame):
+    peer.Logout()
+    exit(0)
+
 
 peer=Peer()
 
@@ -324,7 +330,9 @@ if peer.id=="0000000000000000":
     peer.Logout()
     sys.exit()
 
+signal.signal(signal.SIGINT, Ctrl_c)
 peer.Cartella()
+
 
 p=os.fork()
 if p==0:
