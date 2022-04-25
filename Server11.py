@@ -132,6 +132,7 @@ def login(ip, porta):
     sid = id_generator()
     output = execute__login_query(connection, login_query, ip, porta, sid)
     answer = "ALGI"+output
+    print(f"RISPOSTA: {answer}")
     return answer
 
 
@@ -151,7 +152,7 @@ def upload(sid, md5, name):
 
     check_query2 = "SELECT MD5 FROM DIRECTORY WHERE MD5 = %s AND sid=%s"
     changed2 = execute_query_2par(connection, check_query2, md5, sid)
-    print(changed2)
+    #print(changed2)
     if changed2 ==0:
         upload_query_DIRECTORY = "INSERT INTO DIRECTORY VALUES (%s, %s)"
         execute_query_2par(connection, upload_query_DIRECTORY, sid, md5)
@@ -160,6 +161,7 @@ def upload(sid, md5, name):
     copy = str(execute_query_1par(connection, copy_query, md5))
     copy = copy.zfill(3)
     answer = "AADD"+copy
+    print(f"RISPOSTA: {answer}")
     return answer
 
 
@@ -187,6 +189,7 @@ def remove(sid, md5):
     copy = str(execute_query_1par(connection, check_query3, md5))
     copy = copy.zfill(3)
     answer = "ADEL"+copy
+    print(f"RISPOSTA: {answer}")
     return answer
 
 
@@ -196,22 +199,29 @@ def remove(sid, md5):
 def ricerca(sid, ricerca):
     query_idmd5 = "SELECT MD5,NOME FROM FILE WHERE NOME = %s"
     idmd5 = str(execute_query_1par(connection, query_idmd5, ricerca))
+    if int(idmd5)==0:
+        print("IL FILE CERCATO NON È PRESENTE")
+        to_send = "IL FILE CERCATO NON È PRESENTE"
+    else:
+        risposta = ""
+        md5s = read_query(connection, query_idmd5, ricerca)
+        for file in md5s:
+            copy_query = "SELECT MD5, SID FROM DIRECTORY WHERE MD5 = %s"
+            copy = str(execute_query_1par(connection, copy_query, file[0]))
+            for_ip_port = read_query(connection, copy_query, file[0])
+            intestazione = "AFIN"+idmd5.zfill(3)
+            #print(f"PRIMO CICLO - MD5S = {file[0]}")
+            for i in for_ip_port:
+                ip_porta_q = "SELECT IP, PORTA FROM UTENTE WHERE SID = %s"
+                ip_port = read_query(connection, ip_porta_q, i[1])
+                answer = file[0]+file[1]+copy.zfill(3)+str(ip_port[0][0])+str(ip_port[0][1])
+                risposta = risposta+answer
+                #print(f"DENTRO FUNZIONE: {risposta}\n...................................\n")
+        print(f"RISPOSTA: {intestazione+risposta}")
+        to_send = intestazione+risposta
+
+    return to_send
     
-    risposta = ""
-    md5s = read_query(connection, query_idmd5, ricerca)
-    for file in md5s:
-        copy_query = "SELECT MD5, SID FROM DIRECTORY WHERE MD5 = %s"
-        copy = str(execute_query_1par(connection, copy_query, file[0]))
-        for_ip_port = read_query(connection, copy_query, file[0])
-        intestazione = "AFIN"+idmd5.zfill(3)
-        print(f"PRIMO CICLO - MD5S = {file[0]}")
-        for i in for_ip_port:
-            ip_porta_q = "SELECT IP, PORTA FROM UTENTE WHERE SID = %s"
-            ip_port = read_query(connection, ip_porta_q, i[1])
-            answer = file[0]+file[1]+copy.zfill(3)+str(ip_port[0][0])+str(ip_port[0][1])
-            risposta = risposta+answer
-            print(f"DENTRO FUNZIONE: {risposta}\n...................................\n")
-    return intestazione+risposta
 
 
 
@@ -225,7 +235,7 @@ def download(sid, md5, ip, porta):
     n_downloads = execute_query_1par(connection, n_downloads_query, md5)
     n_downloads = str(n_downloads).zfill(5)
     answer = "ARRE"+n_downloads
-    print(answer)
+    print(f"RISPOSTA: {answer}")
     return answer
 
 
@@ -237,17 +247,17 @@ def download(sid, md5, ip, porta):
 def logout(sid):
     query_check_files = "SELECT SID FROM DIRECTORY WHERE SID = %s"
     changed1 = execute_query_1par(connection, query_check_files, sid)
-    print(changed1)
+    #print(changed1)
 
     #cancellazione files dell'utente
     #for i in range(changed1):
     select_query = "SELECT MD5 FROM DIRECTORY WHERE SID =%s"
     n_files = str(execute_query_1par(connection, select_query, sid))
-    print(f"n° files: {n_files}")
+    #print(f"n° files: {n_files}")
     files = read_query(connection, select_query, sid)
     i=0
     for file in files:
-        print(f"questo è file: {file[i]}")
+        #print(f"questo è file: {file[i]}")
         check_query1 = "SELECT MD5 FROM DIRECTORY WHERE MD5 = %s"
         changed2 = execute_query_1par(connection, check_query1, file[i])
         if changed2 == 1:
@@ -262,6 +272,7 @@ def logout(sid):
     execute_query_1par(connection, logout_query, sid)
     n_files = n_files.zfill(3)
     answer = "ALGO"+n_files
+    print(f"RISPOSTA: {answer}")
     return answer
 
 
@@ -293,7 +304,7 @@ def azione(intestazione):
         research = conn.recv(20).decode()
         res = research.ljust(100)
         ris = str(ricerca(sid, res))
-        print(f"Risposta: {ris}")
+        #print(f"Risposta: {ris}")
         #answer = pickle.dumps(ris)
         conn.send(ris.encode())
         
@@ -320,6 +331,12 @@ s.bind(("", 80))
 s.listen(40)
 
 while True:
+    print("\n\n")
+    print("          ||\\\  ||    //\\\    ||==||  //=== ====== ||=== ||==|| ")
+    print("          || \\\ ||   //  \\\   ||  ||   \\\     ||   ||___ ||==|| ")
+    print("          ||  \\\||  //====\\\  ||==||    \\\    ||   ||    ||\\\    ")
+    print("          ||   \\\| //      \\\ ||     ===//    ||   ||=== || \\\   ")
+    print("\n\n")
     print("Server in ascolto...")
     conn, addr = s.accept()
     pid = os.fork()
