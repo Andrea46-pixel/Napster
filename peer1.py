@@ -95,45 +95,53 @@ class Peer:
         self.s.send(("FIND"+str(self.id)+str(self.nomefile)+vuoto).encode())
         
         risp=self.s.recv(1024).decode()
-
         self.s.close()
 
-        x = 7
-        idmd5  = int(risp[4:7].strip())
-        print(f"\nRISULTATI TROVATI: {idmd5}")
-        for i in range(0,idmd5):
-            md5 = risp[x:x+32]
-            name = risp[x+32:x+132]
-            copy = risp[x+132: x+135]
-            ip = risp[x+135: x+150]
-            port = risp[x+150: x+155]
-            print(f"\nMD5: {md5}\nNAME: {name.strip()}\nCOPY: {copy}\nIP: {ip}\nPORT: {port}\n")
-            x= x+155
+        if risp[0:4] == "AFIN":
+            x = 7
+            idmd5  = int(risp[4:7].strip())
+            print(f"\nRISULTATI TROVATI: {idmd5}")
+            for i in range(0,idmd5):
+                md5 = risp[x:x+32]
+                name = risp[x+32:x+132]
+                copy = risp[x+132: x+135]
+                ip = risp[x+135: x+150]
+                port = risp[x+150: x+155]
+                print(f"\nMD5: {md5}\nNAME: {name.strip()}\nCOPY: {copy}\nIP: {ip}\nPORT: {port}\n")
+                x= x+155
+            
+            qw=False
+            while qw==False:
+                print("Premere x se non si vuole scaricare un file")
+                print("premere s se si vuole scaricare un file")
+                sc=input()
+                if sc=="x":
+                    qw=True
+                    return
+                if sc=="s":
+                    qw=True
+
+            if sc=="s":
+                print("Inserisci i dati relativi ad un utente\nNon mischiare i dati")
+                print("Inserisci l'indirizzo ip del proprietario del file che vuoi scaricare")
+                self.ipcollegamento=input()
+                print("Inserisci la porta di collegamento")
+                self.portacollegamento=input()
+                print("Inserisci in nome del file che vuoi scaricare")
+                self.nomefilecollegamento=input()
+                print("Inserisci md5 del file che vuoi scaricare collegato al nome del file")
+                self.md5collegamento=input()
+                self.Download()
+        else:
+            print(risp)
+            input()
+            #qw = True
+            return
+        
             
 
 
-        qw=False
-        while qw==False:
-            print("Premere x se non si vuole scaricare un file")
-            print("premere s se si vuole scaricare un file")
-            sc=input()
-            if sc=="x":
-                qw=True
-                return
-            if sc=="s":
-                qw=True
-
-        if sc=="s":
-            print("Inserisci i dati relativi ad un utente\nNon mischiare i dati")
-            print("Inserisci l'indirizzo ip del proprietario del file che vuoi scaricare")
-            self.ipcollegamento=input()
-            print("Inserisci la porta di collegamento")
-            self.portacollegamento=input()
-            print("Inserisci in nome del file che vuoi scaricare")
-            self.nomefilecollegamento=input()
-            print("Inserisci md5 del file che vuoi scaricare collegato al nome del file")
-            self.md5collegamento=input()
-            self.Download()
+        
 
 #=======================================================================================================================================================================
 # per il scaaricamento del file dal peer 
