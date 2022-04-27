@@ -64,14 +64,15 @@ class CServer:
                             if resto!=0:
                                 fc+=1
 
-                            '''tmp=""
+                            tmp=""
                             for i in range(0,6-len(str(fc))):
-                                tmp+=0
-                            tmp+=str(fc)
+                                tmp+="0"
+                            pachetto+=str(tmp)+str(fc)
+                            '''tmp+=str(fc)
                             pachetto+=tmp
-                            pachetto=str(pachetto)
+                            pachetto=str(pachetto)'''
 
-                            self.conn.send(pachetto.encode())
+                            '''self.conn.send(pachetto.encode())
                             pachetto=""
 
                             for i in range(0,dimensione//4096):
@@ -90,7 +91,7 @@ class CServer:
                                 pachetto+=os.read(fd,4096).decode()
                                 self.conn.send(pachetto.encode())
                             os.close(fd)'''
-                            cont=0
+                            '''cont=0
                             risp=""
                             while True:
                                 buf=os.read(fd,4096)
@@ -106,7 +107,13 @@ class CServer:
                                 vuoto+="0"
                             cont=str(vuoto)+str(cont)
                             mes="AERT"+cont+risp
-                            self.conn.send(mes.encode())
+                            self.conn.send(mes.encode())'''
+                            grandezza="04096"
+                            self.conn.send(pachetto.encode())
+                            for i in range(0,fc):
+                                buf=os.read(fd,4096)
+                                self.conn.send(grandezza.encode())
+                                self.conn.send(buf)
 
                     except:
                         self.conn.send(("AERT000000").encode())
