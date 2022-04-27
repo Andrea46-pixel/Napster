@@ -197,7 +197,9 @@ def remove(sid, md5):
 #=========================================RICERCA===================================================#
 
 def ricerca(sid, ricerca):
-    query_idmd5 = "SELECT MD5,NOME FROM FILE WHERE NOME = %s"
+    ricerca = "%"+ricerca.strip()+"%"
+    print(f"Questa è la stringa {ricerca}.\n")
+    query_idmd5 = "SELECT MD5,NOME FROM FILE WHERE NOME LIKE %s"
     idmd5 = str(execute_query_1par(connection, query_idmd5, ricerca))
     if int(idmd5)==0:
         print("IL FILE CERCATO NON È PRESENTE")
