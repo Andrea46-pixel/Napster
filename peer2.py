@@ -109,6 +109,9 @@ class Peer:
         self.s.send(("FIND"+str(self.id)+str(self.nomefile)+vuoto).encode())
         
         risp=self.s.recv(1024).decode()
+
+        print(risp)
+
         self.s.close()
         #viene visualizata la risposta del server separata per informazioni
         if risp[0:4] == "AFIN":
@@ -165,9 +168,9 @@ class Peer:
         try:
             #appertura connessione con il client per scaricare il file
             self.ss=socket.socket()
-            self.ss.connect((self.ipcollegamento,self.portacollegamento))
+            self.ss.connect((self.ipcollegamento,int(self.portacollegamento)))
             #creo il file nel quale verranno scritti i byte 
-            fd=os.open(self.percorsodownload+"/"+self.nomefile, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o777)
+            fd=os.open(self.percorsodownload+"/"+self.nomefilecollegamento, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o777)
             #invio richiesta al server-client
             self.ss.send((f"RETR{self.md5collegamento}").encode())
             #risposta dal client-server
@@ -189,7 +192,7 @@ class Peer:
 
             os.close(fd)
 
-            print(f"{self.nomefile} è stato scaricato correttamente")
+            print(f"{self.nomefilecollegamento} è stato scaricato correttamente")
             time.sleep(1)
             self.ss.close()
             #apertura comunicazione con il server centrale per comunicargli che il download è avvenuto tra i due peer
@@ -206,7 +209,7 @@ class Peer:
             #exception contiene il tipo di errore
             print(f"{self.nomefile} non è stato scaricato\nCi sono stati dei problemi")
             print(repr(e))
-            time.sleep(1)
+            time.sleep(4)
             #vengono chiuse le varie comunicazioni aperte se ci sono stati problemi
             try:
                 try:
